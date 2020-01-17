@@ -30,10 +30,18 @@
 */
 
 //Code Here
-
-
+class Employee {
+  constructor(first_name, last_name, email, age){
+    this.first_name = first_name;
+    this.last_name = last_name;
+    this.email = email;
+    this.age = age;
+  }
+  makeWidget() {
+    return `${this.first_name} ${this.last_name} Widget`;
+  }
+};
 ////////// PROBLEM 2 //////////
-
 /*
   Next, make a manager for Widget Co. that extends Employee
   Each manager has all of the same properties as an employee with the following additional properties:
@@ -43,11 +51,23 @@
       - Accepts a new employee as a parameter and pushes it to their list of reports.
     - fire (index)
       - Fire removes employees from their list of reports at the given index
-
   Call your new class Manager
 */
-
 //Code Here
+class Manager extends Employee {
+  constructor(first_name, last_name, email, age){
+    super (first_name, last_name, email)
+    this.age = age;
+    this.reports = [];
+  }
+  hire(employee) {
+    this.reports.push(employee);
+  }
+  fire(index) {
+    this.reports.splice(index, 1);
+  }
+}
+// let manager1 = new Manager('Mike', 'Watson', 'Mike.Watson@apple.com', 45)
 
 
 ////////// PROBLEM 3 //////////
@@ -72,8 +92,37 @@
 */
 
 //Code Here
+class ProgressiveManager extends Manager {
+  constructor(first_name, last_name, email, age, reports) {
+    super(first_name, last_name, email, age, reports);
+    this.title = 'Not a manager';
+    this.bonus = 0;
+  }
+  hire(employee) {
+    super.hire(employee);
+    if (this.reports.length === 0) {
+      this.title = "Not a manager";
+    } else if (this.reports.length < 4 && this.reports.length > 0) {
+      this.title = "Barely Manager";
+    } else if (this.reports.length > 3 && this.reports.length < 11) {
+      this.title = "Mostly Manager";
+    } else if (this.reports.length > 10 && this.reports.length < 51) {
+      this.title = "Manager";
+    } else if (this.reports.length > 50 && this.reports.length < 101) {
+      this.title = "Manager Plus";
+    } else if (this.reports.length > 100) {
+      this.title = "Bestest Manager";
+    }
+  }
+  fire(index) {
+    super.fire(index);
+    if ((this.reports.length > 1)) {
+      this.bonus += 100;
+    }
+  }
+}
 
-
+// let progressiveManager1 = new ProgressiveManager('Dan', 'theMan', 'SecreteMail@apple.com', 27) 
 
 ////////// PROBLEM 4 - Black Diamond //////////
 
@@ -99,5 +148,3 @@
 */
 
 //Code Here
-
-
